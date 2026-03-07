@@ -31,4 +31,8 @@ public class UserService {
     public User update(User user){
         return repository.save(user);
     }
+
+    public void delete(User user){
+        repository.delete(user);
+    }
 }

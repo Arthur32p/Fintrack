@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -61,6 +60,15 @@ public class UserController implements GenericController{
         UserResponseDTO savedUser = mapper.toResponse(saved);
 
         return ResponseEntity.ok(savedUser);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") UUID id){
+        User user = service.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        service.delete(user);
+
+        return ResponseEntity.noContent().build();
     }
 
 
