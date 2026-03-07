@@ -1,6 +1,7 @@
 package io.github.arthur.Fintrack.service;
 
-import io.github.arthur.Fintrack.dto.UserResponseDTO;
+import io.github.arthur.Fintrack.exceptions.RecordNotFoundException;
+import io.github.arthur.Fintrack.validator.UserValidator;
 import io.github.arthur.Fintrack.model.User;
 import io.github.arthur.Fintrack.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,24 +16,31 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository repository;
+    private final UserValidator validator;
 
     public User create(User user){
+        validator.validate(user);
         return repository.save(user);
     }
 
-    public Optional<User> findById(UUID id){
-        return repository.findById(id);
+    public User findById(UUID id){
+        return repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Usuário não encontrado"));
     }
 
     public List<User> findAll(){
         return repository.findAll();
     }
 
-    public User update(User user){
+    public User update(UUID id, User user){
+        User existing = findById(id);
+        user.setId(existing.getId());
+        user.setCreatedAt(existing.getCreatedAt());
+        validator.validate(user);
         return repository.save(user);
     }
 
-    public void delete(User user){
+    public void delete(UUID id){
+        User user = findById(id);
         repository.delete(user);
     }
 }

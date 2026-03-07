@@ -34,11 +34,10 @@ public class UserController implements GenericController{
 
     @GetMapping("{id}")
     public ResponseEntity<UserResponseDTO> findById(@PathVariable("id") UUID id){
-        return service.findById(id)
-                .map(user -> {
-                    var response = mapper.toResponse(user);
-                    return ResponseEntity.ok(response);
-                }).orElseGet(null);
+        User user = service.findById(id);
+        UserResponseDTO userFound = mapper.toResponse(user);
+
+        return ResponseEntity.ok(userFound);
     }
 
     @GetMapping
@@ -51,12 +50,7 @@ public class UserController implements GenericController{
 
     @PutMapping("{id}")
     public ResponseEntity<UserResponseDTO> update(@PathVariable("id") UUID id, @RequestBody @Valid UserRequestDTO dto){
-        User user = service.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
-        user.setName(dto.name());
-        user.setEmail(dto.email());
-
-        User saved = service.update(user);
+        User saved = service.update(id, mapper.toEntity(dto));
         UserResponseDTO savedUser = mapper.toResponse(saved);
 
         return ResponseEntity.ok(savedUser);
@@ -64,9 +58,8 @@ public class UserController implements GenericController{
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") UUID id){
-        User user = service.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        service.delete(user);
+        service.delete(id);
 
         return ResponseEntity.noContent().build();
     }
