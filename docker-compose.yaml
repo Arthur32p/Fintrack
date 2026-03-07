@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16
+    container_name: fintrack-db
+    environment:
+      POSTGRES_DB: fintrack
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - fintrack_data:/var/lib/postgresql/data
+    networks:
+      - fintrack-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: fintrack-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8081:80"
+    networks:
+      - fintrack-network
+
+networks:
+  fintrack-network:
+    driver: bridge
+
+volumes:
+  fintrack_data:

@@ -1,3 +1,5 @@
 spring:
   application:
     name: Fintrack
+  profiles:
+    active: local
