@@ -1,9 +1,13 @@
 package io.github.arthur.Fintrack.service;
 
+import io.github.arthur.Fintrack.dto.UserResponseDTO;
 import io.github.arthur.Fintrack.model.User;
 import io.github.arthur.Fintrack.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -13,5 +17,9 @@ public class UserService {
 
     public User create(User user){
         return repository.save(user);
+    }
+
+    public Optional<User> findById(UUID id){
+        return repository.findById(id);
     }
 }

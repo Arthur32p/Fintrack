@@ -7,11 +7,11 @@ import io.github.arthur.Fintrack.model.User;
 import io.github.arthur.Fintrack.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("user")
@@ -30,4 +30,14 @@ public class UserController implements GenericController{
 
         return ResponseEntity.created(location).body(savedUser);
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<UserResponseDTO> findById(@PathVariable("id") UUID id){
+        return service.findById(id)
+                .map(user -> {
+                    var response = mapper.toResponse(user);
+                    return ResponseEntity.ok(response);
+                }).orElseGet(null);
+    }
+
 }
