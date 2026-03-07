@@ -7,14 +7,13 @@ import io.github.arthur.Fintrack.model.User;
 import io.github.arthur.Fintrack.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.control.MappingControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("user")
@@ -50,5 +49,19 @@ public class UserController implements GenericController{
 
         return ResponseEntity.ok(list);
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<UserResponseDTO> update(@PathVariable("id") UUID id, @RequestBody @Valid UserRequestDTO dto){
+        User user = service.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        user.setName(dto.name());
+        user.setEmail(dto.email());
+
+        User saved = service.update(user);
+        UserResponseDTO savedUser = mapper.toResponse(saved);
+
+        return ResponseEntity.ok(savedUser);
+    }
+
 
 }

@@ -27,4 +27,8 @@ public class UserService {
     public List<User> findAll(){
         return repository.findAll();
     }
+
+    public User update(User user){
+        return repository.save(user);
+    }
 }
