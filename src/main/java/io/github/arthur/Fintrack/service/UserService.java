@@ -6,6 +6,7 @@ import io.github.arthur.Fintrack.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,5 +22,9 @@ public class UserService {
 
     public Optional<User> findById(UUID id){
         return repository.findById(id);
+    }
+
+    public List<User> findAll(){
+        return repository.findAll();
     }
 }
