@@ -3,3 +3,8 @@ spring:
     name: Fintrack
   profiles:
     active: local
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET}

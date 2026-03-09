@@ -5,6 +5,7 @@ import io.github.arthur.Fintrack.validator.UserValidator;
 import io.github.arthur.Fintrack.model.User;
 import io.github.arthur.Fintrack.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +18,11 @@ public class UserService {
 
     private final UserRepository repository;
     private final UserValidator validator;
+    private final PasswordEncoder passwordEncoder;
 
     public User create(User user){
         validator.validate(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repository.save(user);
     }
 
