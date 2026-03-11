@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,5 +22,9 @@ public class TransactionService {
 
     public List<Transaction> getAll(User user){
         return repository.findByUser(user);
+    }
+
+    public Transaction findById(UUID id, User user){
+        return repository.findByIdAndUser(id, user).orElseThrow(() -> new RuntimeException("Transação inexistente"));
     }
 }
