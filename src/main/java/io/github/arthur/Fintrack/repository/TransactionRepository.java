@@ -15,8 +15,4 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
     List<Transaction> findByUser(User user);
 
     Optional<Transaction> findByIdAndUser(UUID id, User user);
-
-    @Modifying
-    @Transactional
-    void deleteByIdAndUser(UUID id, User user);
 }

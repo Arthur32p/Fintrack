@@ -52,7 +52,7 @@ public class TransactionController implements GenericController{
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<TransactionResponseDTO> update(@PathVariable("id") UUID id, @RequestBody TransactionRequestDTO dto, @AuthenticationPrincipal User user){
+    public ResponseEntity<TransactionResponseDTO> update(@PathVariable("id") UUID id, @RequestBody @Valid TransactionRequestDTO dto, @AuthenticationPrincipal User user){
         Transaction saved = service.update(id, mapper.toEntity(dto), user);
         TransactionResponseDTO response = mapper.toResponse(saved);
 

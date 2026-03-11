@@ -42,7 +42,7 @@ public class UserService {
     }
 
     public void delete(UUID id){
-        User user = findById(id);
+        User user = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Transação inexistente"));
         repository.delete(user);
     }
 }
