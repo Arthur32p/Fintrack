@@ -38,7 +38,7 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "category_type", nullable = false)
-    private CategoryType category;
+    private CategoryType categoryType;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
