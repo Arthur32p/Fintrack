@@ -64,5 +64,4 @@ public class UserController implements GenericController{
         return ResponseEntity.noContent().build();
     }
 
-
 }

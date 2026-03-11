@@ -4,6 +4,7 @@ import io.github.arthur.Fintrack.model.Transaction;
 import io.github.arthur.Fintrack.model.User;
 import io.github.arthur.Fintrack.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,5 +27,9 @@ public class TransactionService {
 
     public Transaction findById(UUID id, User user){
         return repository.findByIdAndUser(id, user).orElseThrow(() -> new RuntimeException("Transação inexistente"));
+    }
+
+    public void delete(UUID id, User user){
+        repository.deleteByIdAndUser(id, user);
     }
 }
