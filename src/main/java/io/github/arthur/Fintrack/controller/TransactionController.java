@@ -8,6 +8,7 @@ import io.github.arthur.Fintrack.model.User;
 import io.github.arthur.Fintrack.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,14 @@ public class TransactionController implements GenericController{
     public ResponseEntity<TransactionResponseDTO> findById(@PathVariable("id") UUID id, @AuthenticationPrincipal User user){
         Transaction transaction = service.findById(id, user);
         TransactionResponseDTO response = mapper.toResponse(transaction);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<TransactionResponseDTO> update(@PathVariable("id") UUID id, @RequestBody TransactionRequestDTO dto, @AuthenticationPrincipal User user){
+        Transaction saved = service.update(id, mapper.toEntity(dto), user);
+        TransactionResponseDTO response = mapper.toResponse(saved);
 
         return ResponseEntity.ok(response);
     }
