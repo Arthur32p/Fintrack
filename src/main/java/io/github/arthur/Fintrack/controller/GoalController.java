@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("goal")
@@ -39,5 +40,13 @@ public class GoalController implements GenericController{
         List<GoalResponseDTO> list = goals.stream().map(mapper::toResponse).toList();
 
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<GoalResponseDTO> findById(@PathVariable UUID id, @AuthenticationPrincipal User user){
+        Goal goal = service.findById(id, user);
+        GoalResponseDTO response = mapper.toResponse(goal);
+
+        return ResponseEntity.ok(response);
     }
 }

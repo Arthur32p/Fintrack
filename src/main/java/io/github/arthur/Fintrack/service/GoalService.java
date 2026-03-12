@@ -1,5 +1,6 @@
 package io.github.arthur.Fintrack.service;
 
+import io.github.arthur.Fintrack.exceptions.RecordNotFoundException;
 import io.github.arthur.Fintrack.model.Goal;
 import io.github.arthur.Fintrack.model.User;
 import io.github.arthur.Fintrack.repository.GoalRepository;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,5 +23,9 @@ public class GoalService {
 
     public List<Goal> getAll(User user){
         return repository.findAllByUser(user);
+    }
+
+    public Goal findById(UUID id, User user){
+        return repository.findByIdAndUser(id, user).orElseThrow(() -> new RecordNotFoundException("Meta inexistente"));
     }
 }
