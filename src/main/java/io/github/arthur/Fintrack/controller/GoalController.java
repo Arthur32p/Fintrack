@@ -43,9 +43,17 @@ public class GoalController implements GenericController{
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<GoalResponseDTO> findById(@PathVariable UUID id, @AuthenticationPrincipal User user){
+    public ResponseEntity<GoalResponseDTO> findById(@PathVariable("id") UUID id, @AuthenticationPrincipal User user){
         Goal goal = service.findById(id, user);
         GoalResponseDTO response = mapper.toResponse(goal);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<GoalResponseDTO> update(@PathVariable("id") UUID id, @RequestBody @Valid GoalRequestDTO dto, @AuthenticationPrincipal User user){
+        Goal saved = service.update(id, mapper.toEntity(dto), user);
+        GoalResponseDTO response = mapper.toResponse(saved);
 
         return ResponseEntity.ok(response);
     }

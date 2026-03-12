@@ -28,4 +28,11 @@ public class GoalService {
     public Goal findById(UUID id, User user){
         return repository.findByIdAndUser(id, user).orElseThrow(() -> new RecordNotFoundException("Meta inexistente"));
     }
+
+    public Goal update(UUID id, Goal goal, User user){
+        Goal existing = repository.findByIdAndUser(id, user).orElseThrow(() -> new RecordNotFoundException("Meta inexistente"));
+        goal.setId(existing.getId());
+        goal.setUser(existing.getUser());
+        return repository.save(goal);
+    }
 }
