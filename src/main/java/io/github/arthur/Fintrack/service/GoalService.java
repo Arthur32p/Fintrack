@@ -35,4 +35,10 @@ public class GoalService {
         goal.setUser(existing.getUser());
         return repository.save(goal);
     }
+
+    public void delete(UUID id, User user){
+        Goal goal = repository.findByIdAndUser(id, user).orElseThrow(() -> new RecordNotFoundException("Meta inexistente"));
+
+        repository.delete(goal);
+    }
 }

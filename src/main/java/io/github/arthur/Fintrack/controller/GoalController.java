@@ -57,4 +57,11 @@ public class GoalController implements GenericController{
 
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") UUID id, @AuthenticationPrincipal User user){
+        service.delete(id, user);
+
+        return ResponseEntity.noContent().build();
+    }
 }
